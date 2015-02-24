@@ -234,10 +234,14 @@ function change_branch($environment, $branch)
         $output .= "\$ $command\n" . `$command 2>&1`;
         $command = "git pull origin $branch";
         $output .= "\$ $command\n" . `$command 2>&1`;
-        $command = "php protected/yiic init database --test";
+        $command = "php protected/yiic init database";
         $output .= "\$ $command\n" . `$command | grep -v -P "\(\d+\s+of\s+\d+\)\s*\r"`;
         $command = "php protected/yiic migrate";
         $output .= "\$ $command\n" . `echo 'yes' | $command`;
+        $command = "php protected/yiic init users --test";
+        $output .= "\$ $command\n" . `$command | grep -v -P "\(\d+\s+of\s+\d+\)\s*\r"`;
+        $command = "php protected/yiic init test";
+        $output .= "\$ $command\n" . `$command | grep -v -P "\(\d+\s+of\s+\d+\)\s*\r"`;
         $command = "php protected/yiic init assets";
         $output .= "\$ $command\n" . `$command 2>&1`;
         $output .= "\nPress to button `Add Test Data` to add packages, addresses, etc";
@@ -295,11 +299,14 @@ function init_database($environment)
         chdir($path);
 
         $output = "\$ cd $path\n";
-        $command = "php protected/yiic init database --test";
+        $command = "php protected/yiic init database";
         $output .= "\$ $command\n" .
             `$command | grep -v -P "\(\d+\s+of\s+\d+\)\s*\r"`;
         $command = "php protected/yiic migrate";
         $output .= "\$ $command\n" . `echo 'yes' | $command`;
+        $command = "php protected/yiic init users --test";
+        $output .= "\$ $command\n" .
+            `$command | grep -v -P "\(\d+\s+of\s+\d+\)\s*\r"`;
         $output .= "\nPress to button `Add Test Data` to add packages, addresses, etc";
 
         return $output;
