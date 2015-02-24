@@ -326,7 +326,8 @@ function exec_script($text, $environment)
         foreach ($text_commands as $line)
         {
             // skip empty lines and comments
-            if (empty($line = trim($line)) || $line{0} === '#') continue;
+            $line = trim($line);
+            if (empty($line) || $line{0} === '#') continue;
 
             if ($comment = strpos($line, ' # '))
             {
